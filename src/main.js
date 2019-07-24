@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import App from './App.vue';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faEnvelopeSquare);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+import 'font-awesome/css/font-awesome.min.css'; 
+import './components/config/bootstrap';
+import store from './components/config/store';
 
 Vue.config.productionTip = false;
 
 new Vue({
+  store,
   render: h => h(App),
 }).$mount('#app')

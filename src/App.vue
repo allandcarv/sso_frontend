@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header title="Sistema de Solicitações Online" hideUserDropDown="false" />
+    <Header title="Sistema de Solicitações Online" />
     <Content />
     <Footer />
   </div>
@@ -23,16 +23,12 @@ export default {
 
 <style>
   * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     font-family: 'Oxygen', sans-serif;
   }
 
   #app {
     display: grid;
-    grid-template-rows: 80px 1fr 80px;
+    grid-template-rows: 60px 1fr 60px;
     grid-template-columns: 1fr;
     grid-template-areas: 
       "header"
@@ -40,6 +36,7 @@ export default {
       "footer";
 
     height: 100vh;
+
   }
 
 </style>
