@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        Conteúdo Principal
+        <router-view></router-view>
     </div>
 </template>
 
@@ -13,5 +13,8 @@ export default {
 <style>
     .content {
         grid-area: content;
+        padding: 40px;
+
+        background-color: #fff;
     }
 </style>

@@ -69,7 +69,7 @@ export default {
         z-index: 1;
         visibility: hidden;
         opacity: 0;
-        transition: visibility 0s, opacity 0.5s linear;
+        transition: visibility 0s, opacity 0.5s linear;        
 
         background-color: #f9f9f9;
         
@@ -78,6 +78,10 @@ export default {
     .user-dropdown:hover .user-dropdown__content {
         visibility: visible;
         opacity: 1;
+    }
+
+    .user-dropdown__content a {
+        padding: 5px 10px;
     }
 
     .user-dropdown__content a:hover {

@@ -1,7 +1,9 @@
 <template>
     <header class="header">
         <div class="header__logo">
-            <img src="../../assets/logoCEB.png" />
+            <router-link to="/">
+                <img src="../../assets/logoCEB.png" />
+            </router-link>
         </div>
         <div class="header__title">
             <span>{{ title }}</span>
