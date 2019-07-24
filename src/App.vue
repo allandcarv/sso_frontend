@@ -1,28 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header title="Sistema de Solicitações Online" hideUserDropDown="false" />
+    <Content />
+    <Footer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/template/Header';
+import Content from './components/template/Content';
+import Footer from './components/template/Footer';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Header,
+    Content,
+    Footer
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Oxygen', sans-serif;
+  }
+
+  #app {
+    display: grid;
+    grid-template-rows: 80px 1fr 80px;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "header"
+      "content"
+      "footer";
+
+    height: 100vh;
+  }
+
 </style>
