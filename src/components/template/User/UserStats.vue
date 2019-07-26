@@ -64,5 +64,9 @@ export default {
   .cards__group {
       padding: 20px;
   }
+
+  .stats__user .stats__cards {
+      height: 42rem;
+  }
     
 </style>

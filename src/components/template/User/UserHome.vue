@@ -14,6 +14,7 @@
                             <template slot="title">
                                 <i class="fa fa-commenting-o"></i> Nova Solicitação
                             </template>
+                            <UserNewTicket />
                         </b-tab>
                         <b-tab>
                             <template slot="title">
@@ -34,10 +35,11 @@
 
 <script>
 import UserStats from './UserStats';
+import UserNewTicket from './UserNewTicket'
 
 export default {
     name: 'UserHome',
-    components: { UserStats }    
+    components: { UserStats, UserNewTicket }    
 }
 </script>
 
