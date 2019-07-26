@@ -28,7 +28,7 @@ export default {
     }
 
     .footer__span {
-        color: #fff;
+        color: #f2f2f2;
         font-weight: bold;
     }
 
@@ -37,7 +37,7 @@ export default {
         margin-left: 20px;
         margin-right: 40px;
                 
-        color: #fff;
+        color: #f2f2f2;
         font-size: 2.5rem;
         text-decoration: none;
     }

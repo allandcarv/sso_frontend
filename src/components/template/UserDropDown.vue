@@ -43,7 +43,7 @@ export default {
 
         height: 100%;
         
-        color: #212C7C;
+        color: #f2f2f2;
         font-weight: 100;
     }
 

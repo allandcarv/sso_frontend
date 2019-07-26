@@ -1,6 +1,6 @@
 <template>
     <div class="page-title">
-        <h2>{{ title }}</h2>        
+        <span>{{ title }}</span>        
     </div>
 </template>
 
@@ -12,5 +12,10 @@ export default {
 </script>
 
 <style>
-
+    .page-title {
+        padding: 10px;
+        
+        color: #809fff;
+        font-size: 1.1rem 
+    }
 </style>
