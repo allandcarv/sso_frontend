@@ -20,6 +20,7 @@
                             <template slot="title">
                                 <i class="fa fa-exclamation-circle"></i> Solicitações Abertas
                             </template>
+                            <UserOpenTickets />
                         </b-tab>
                         <b-tab>
                             <template slot="title">
@@ -35,16 +36,18 @@
 
 <script>
 import UserStats from './UserStats';
-import UserNewTicket from './UserNewTicket'
+import UserNewTicket from './UserNewTicket';
+import UserOpenTickets from './UserOpenTickets';
 
 export default {
     name: 'UserHome',
-    components: { UserStats, UserNewTicket }    
+    components: { UserStats, UserNewTicket, UserOpenTickets }    
 }
 </script>
 
 <style>
    .card__user {
       min-height: 48.7rem;
-   }
+   }   
+   
 </style>
