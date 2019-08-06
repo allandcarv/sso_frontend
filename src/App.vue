@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <Header title="Sistema de Solicitações Online" />
+    <Header title="Sistema de Solicitações Online" :authScreen="!user" />
     <Content />
     <Footer />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Header from './components/template/Header';
 import Content from './components/template/Content';
 import Footer from './components/template/Footer';
@@ -17,7 +18,9 @@ export default {
     Header,
     Content,
     Footer
-  }
+  },
+  computed: 
+    mapState(['user'])  
 }
 </script>
 

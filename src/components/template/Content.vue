@@ -1,8 +1,8 @@
 <template>
     <div class="content">
-        <b-container fluid>
+        <!-- <b-container fluid> -->
             <router-view></router-view>
-        </b-container>
+        <!-- </b-container> -->
     </div>
 </template>
 

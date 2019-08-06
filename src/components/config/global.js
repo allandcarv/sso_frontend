@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
 export const baseApiUrl = 'http://localhost:3000';
+export const userKey = '__sso_user';
 
 export function showError(err) {     
     if (err && err.response && err.response.data) {

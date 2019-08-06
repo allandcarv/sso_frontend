@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <div class="header__logo">
+        <div class="header__logo" v-if="!authScreen">
             <router-link to="/">
                 <img src="../../assets/logoCEB.png" />
             </router-link>
@@ -8,7 +8,7 @@
         <div class="header__title d-none d-sm-block">
             <span>{{ title }}</span>
         </div>
-        <UserDropDown />
+        <UserDropDown v-if="!authScreen" />
     </header>
 </template>
 
@@ -18,7 +18,10 @@ import UserDropDown from './UserDropDown';
 export default {
     name: 'Header',
     components: { UserDropDown },
-    props: { title: String }
+    props: { 
+        title: String,
+        authScreen: Boolean    
+    }
 }
 </script>
 
@@ -37,8 +40,8 @@ export default {
         background: linear-gradient(to right, #3498db, #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */        
     }
 
-    .header__logo > img {
-        max-height: 140px; 
+    .header__logo img {
+        width: 140px; 
     }
     
     .header__title {
