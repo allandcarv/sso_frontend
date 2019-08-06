@@ -1,6 +1,6 @@
 <template>
-    <div class="new-ticket">
-        <PageTitle title="Nova Solicitação" class="ml-3"/>
+    <div class="new-ticket">        
+        <PageTitle title="Nova Solicitação" class="ml-3"/>        
         <div class="new-ticket__form ml-4 mr-4">
             <b-form v-if="show">
                 <b-row>
@@ -14,6 +14,7 @@
                                 id="subject-input"
                                 v-model="solicitation.subject"
                                 type="text"
+                                autocomplete="off"
                                 required
                                 placeholder="Qual o motivo de sua solicitação?"
                             ></b-form-input>
@@ -27,7 +28,7 @@
                         >
                             <b-form-select 
                                 id="category-select"
-                                v-model="solicitation.category"
+                                v-model="solicitation.category_id"
                                 :options="categories"
                                 required>
                             </b-form-select>
@@ -74,7 +75,7 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <b-button variant="primary">Enviar</b-button>
+                        <b-button variant="primary" @click="saveSolicitation">Enviar</b-button>
                         <b-button variant="secondary" class="ml-2" @click="reset">Cancelar</b-button>
                     </b-col>
                 </b-row>
@@ -84,7 +85,10 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import PageTitle from '../PageTitle';
+import { baseApiUrl, showError } from '../../config/global';
 
 export default {
     name: 'UserNewTicket',
@@ -94,7 +98,7 @@ export default {
             show: true,
             solicitation: {
                 subject: null,
-                category: null,
+                category_id: null,
                 description: '',
                 expected_date:null
             },
@@ -104,6 +108,25 @@ export default {
         }
     },
     methods: {
+        loadCategories() {
+            const url = `${baseApiUrl}/categories`
+            axios.get(url)
+                .then(res => {
+                    res.data.map(c => {
+                        this.categories.push({ value: c.id, text: c.name });
+                    });
+                })
+                .catch(err => showError(err.response.data.err))
+        },
+        saveSolicitation() {
+            const url = `${baseApiUrl}/solicitations`
+            axios.post(url, this.solicitation)
+                .then(() => {
+                    this.$toasted.global.defaultSuccess();                    
+                    this.reset();
+                })
+                .catch(err => showError(err.response.data.err) );
+        },
         reset() {
             this.solicitation = {
                 subject: null,
@@ -114,6 +137,9 @@ export default {
             this.show = false;
             this.$nextTick(() => this.show = true);
         }
+    },
+    mounted() {
+        this.loadCategories();
     }
 }
 </script>

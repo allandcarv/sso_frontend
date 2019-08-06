@@ -8,6 +8,6 @@ export default new Vuex.Store({
         user: {
             name: 'Usuário Mock',
             email: 'user@example.com'
-        }
-    }
+        }       
+    },    
 })

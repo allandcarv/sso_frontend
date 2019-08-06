@@ -1,14 +1,14 @@
 <template>
-    <b-row no-gutters>
+    <b-row no-gutters>        
         <b-col>
             <div class="tabs__user">        
                 <b-card class="card__user" no-body>
-                    <b-tabs justified pills>
+                    <b-tabs justified pills v-model="tabIndex">
                         <b-tab active>
                             <template slot="title">
                                 <i class="fa fa-pie-chart"></i>  Gráficos
                             </template>
-                            <UserStats />
+                            <UserStats :tabIndex="tabIndex" />
                         </b-tab>
                         <b-tab>
                             <template slot="title">
@@ -20,12 +20,13 @@
                             <template slot="title">
                                 <i class="fa fa-exclamation-circle"></i> Solicitações Abertas
                             </template>
-                            <UserOpenTickets />
+                            <UserOpenTickets :tabIndex="tabIndex" />
                         </b-tab>
                         <b-tab>
                             <template slot="title">
                                 <i class="fa fa-check-circle-o"></i> Solicitações Fechadas
                             </template>
+                            <UserClosedTickets :tabIndex="tabIndex" />
                         </b-tab>
                     </b-tabs>
                 </b-card>        
@@ -38,10 +39,16 @@
 import UserStats from './UserStats';
 import UserNewTicket from './UserNewTicket';
 import UserOpenTickets from './UserOpenTickets';
+import UserClosedTickets from './UserClosedTickets';
 
 export default {
     name: 'UserHome',
-    components: { UserStats, UserNewTicket, UserOpenTickets }    
+    components: { UserStats, UserNewTicket, UserOpenTickets, UserClosedTickets },
+    data: function() {
+        return {
+            tabIndex: null
+        }
+    }    
 }
 </script>
 

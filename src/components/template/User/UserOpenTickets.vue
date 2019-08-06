@@ -1,44 +1,53 @@
 <template>
     <div class="open-tickets">
-        <PageTitle title="Suas solicitações abertas" class="ml-3" />        
+        <PageTitle title="Suas solicitações abertas" class="ml-3" />             
         <div class="solicitation-edit" v-if="mode === 'edit'">
             <b-form class="ml-3 mr-3">
                 <input id="solicitation-id" type="hidden" v-model="solicitation.id">
                 <b-row>
-                    <b-col cols="12" md="4">
-                        <b-form-group id="solicitation-user" label="Usuário:">
+                    <b-col cols="12" md="3">
+                        <b-form-group id="solicitation-user" label="Ticket:">
                             <b-form-input
                                 id="solicitation-user-input"
                                 type="text"
-                                v-model="solicitation.userName"
+                                v-model="solicitation.ticket"
                                 readonly>
                             </b-form-input>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="12" md="4">                        
-                        <b-form-group id="solicitation-ticket" label="Código:">
+                    <b-col cols="12" md="3">                        
+                        <b-form-group id="solicitation-ticket" label="Data de Abertura:">
                             <b-form-input
                                 id="solicitation-ticket-input"
                                 type="text"
-                                v-model="solicitation.ticket"
+                                v-model="formatedOpenDate"
                                 readonly
                             ></b-form-input>
                         </b-form-group>                  
                     </b-col>
-                    <b-col cols="12" md="4">
-                        <b-form-group id="solicitation-category" label="Categoria">
+                    <b-col cols="12" md="3">
+                        <b-form-group id="solicitation-category" label="Data de Expectativa:">
                             <b-form-input
                                 id="solicitation-category-input"
-                                type="text"
-                                v-model="solicitation.categoryName"
-                                readonly
+                                type="date" 
+                                v-model="solicitation.expected_date"                                
                             >
                             </b-form-input>
                         </b-form-group>
                     </b-col>
+                    <b-col cols="12" md="3">
+                        <b-form-group id="solicitation-open-date" label="Categoria:">
+                            <b-form-input
+                                id="solicitation-open-date-input"
+                                type="text"
+                                v-model="solicitation.categoryName"                                
+                                readonly
+                            ></b-form-input>
+                        </b-form-group>
+                    </b-col>
                 </b-row>
                 <b-row>
-                    <b-col cols="12" md="8">
+                    <b-col>
                         <b-form-group id="solicitation-subject" label="Assunto:">
                             <b-form-input
                                 id="solicitation-subject-input"
@@ -47,17 +56,7 @@
                                 required>
                             </b-form-input>
                         </b-form-group>
-                    </b-col>
-                    <b-col cols="12" md="4">
-                        <b-form-group id="solicitation-open-date" label="Data de Abertura:">
-                            <b-form-input
-                                id="solicitation-open-date-input"
-                                type="text"
-                                v-model="this.formatedDate.open"                                
-                                readonly
-                            ></b-form-input>
-                        </b-form-group>
-                    </b-col>
+                    </b-col>                    
                 </b-row>
                 <b-row>
                     <b-col>
@@ -91,11 +90,11 @@
                 </b-col>
                 <b-col cols="12" md="3">
                     <label class="solicitation-view__label">Data de Abertura:</label>
-                    <p class="solicitation-view__value">{{ this.formatedDate.open }}</p>
+                    <p class="solicitation-view__value">{{ dateFormat(solicitation.opening_date) }}</p>
                 </b-col>
                 <b-col cols="12" md="3">
                     <label class="solicitation-view__label">Data de Expectativa:</label>
-                    <p class="solicitation-view__value">{{ this.formatedDate.exp }}</p>
+                    <p class="solicitation-view__value">{{ solicitation.expected_date ? dateFormat(solicitation.expected_date) : 'Não informado' }}</p>
                 </b-col>
                 <b-col cols="12" md="3">
                     <label class="solicitation-view__label">Categoria:</label>
@@ -114,7 +113,7 @@
                 <b-col cols="12">
                     <b-button variant="primary" class="mr-2" @click="close">Voltar</b-button>
                     <b-button variant="warning" class="mr-2" @click="mode='edit'">Editar</b-button>
-                    <b-button variant="danger">Excluir</b-button>
+                    <b-button variant="danger" @click="removeSolicitation(solicitation)">Excluir</b-button>
                 </b-col>
             </b-row>
         </div>
@@ -142,7 +141,7 @@
                             <span class="solicitations-table__ticket" v-b-tooltip.hover title="Visualizar" @click="loadSolicitation(data.item, 'view')" >{{ data.item.ticket }}</span>
                         </template>                       
                         <template slot="actions" slot-scope="data">
-                            <b-button variant="warning" class="mr-2 mb-2" v-b-tooltip.hover title="Editar" @click="loadSolicitation(data.item, 'edit')">
+                            <b-button variant="warning" class="mr-2 mb-2" v-b-tooltip.hover title="Editar" @click="loadSolicitation(data.item)">
                                 <i class="fa fa-pencil" />
                             </b-button>
                             <b-button variant="danger" class="mb-2" v-b-tooltip.hover title="Excluir" @click="removeSolicitation(data.item)">
@@ -171,10 +170,10 @@ import PageTitle from '../PageTitle';
 export default {
     name: 'UserOpenTickets',
     components: { PageTitle },
+    props: ['tabIndex'],
     data: function() {
         return {
-            mode: String,
-            formatedDate: {},
+            mode: String,            
             solicitations: [],
             solicitation: {},
             categories: [],
@@ -190,7 +189,7 @@ export default {
             limit: 0,
             count: 0,                    
             filterInput: null,
-            confirm: false           
+            confirm: false                       
         }
     },
     methods: {
@@ -202,13 +201,14 @@ export default {
                     this.solicitations = res.data.data;
                     this.limit = res.data.limit;
                     this.count = res.data.count;
+                    this.mode = null;
                 })
                 .catch(err => showError(err.response.data.err));
                 
         },
         filterSolicitations() {
             this.page = 1;
-            const url = `${baseApiUrl}/solicitations/user/9?page=${this.page}&ticket=${this.filterInput}&blabla=teste123`            
+            const url = `${baseApiUrl}/solicitations/user/9?page=${this.page}&ticket=${this.filterInput}`            
             axios.get(url)
                 .then(res => {
                     this.solicitations = res.data.data;
@@ -218,15 +218,14 @@ export default {
                 .catch(err => showError(err.response.data.err));
         },        
         loadSolicitation(solicitation, mode = 'edit') {
-            const url = `${baseApiUrl}/solicitations/${solicitation.id}`;
+            const url = `${baseApiUrl}/solicitations/${solicitation.id}`;            
             axios.get(url)
                 .then(res => { 
                     this.solicitation = { ...res.data };
-                    this.mode = mode;
-                    this.formatedDate.open = moment(this.solicitation.opening_date).format('DD/MM/YYYY');
-                    this.solicitation.expected_date ? 
-                        this.formatedDate.exp = moment(this.solicitation.expected_date).format('DD/MM/YYYY') :
-                        this.formatedDate.exp = 'Não informada';
+                    if (this.solicitation.expected_date) {
+                        this.solicitation.expected_date = this.solicitation.expected_date.substring(0,10);
+                    }
+                    this.mode = mode;                    
                     }
                 )
                 .catch(err => showError(err.response.data.err));
@@ -276,15 +275,22 @@ export default {
             return '';
         }       
     },
+    computed: {
+        formatedOpenDate: function() {
+            const temp = new Date(this.solicitation.opening_date);
+            return moment(temp).format('DD/MM/YYYY');
+        }
+    },
     watch: {
         page() {
             this.getSolicitations();
+        },
+        tabIndex(newValue) {            
+            if (newValue === 2) {
+                this.getSolicitations();
+            }
         }
-    },
-    mounted() {
-        this.getSolicitations();             
-    } 
-    
+    }    
 }
 </script>
 

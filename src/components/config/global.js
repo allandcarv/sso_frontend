@@ -11,5 +11,6 @@ export function showError(err) {
         Vue.toasted.global.defaultError()
     }
 }
+
 export default { baseApiUrl, showError };
 

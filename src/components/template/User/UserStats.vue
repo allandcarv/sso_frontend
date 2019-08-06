@@ -1,5 +1,5 @@
 <template>
-    <div class="stats__user">
+    <div class="stats__user">              
         <PageTitle title="Gráficos baseados nas suas Solicitações" class="ml-3"/>
         <div class="stats__cards ml-4 mr-4">
             <b-card-group class="cards__group" deck>
@@ -18,9 +18,8 @@
                         <Charts type="donut" :options="categoryChartOptions" :series="categoryChartSeries" />
                     </b-card-text>
                 </b-card>
-            </b-card-group>
-            
-        </div>
+            </b-card-group>            
+        </div>        
     </div>
 </template>
 
@@ -33,9 +32,10 @@ import { baseApiUrl } from '../../config/global';
 
 export default {
     name: 'UserStats',
-    components: { PageTitle, Charts },
+    components: { PageTitle, Charts }, 
+    props: ['tabIndex'],   
     data: function() {
-        return {
+        return {            
             totalChartOptions: {               
                 responsive: [{
                     breakpoint: 1400,
@@ -69,8 +69,9 @@ export default {
         }
     },
     methods: {
-        loadStats() {
-            const url = `${baseApiUrl}/stats/user`
+        loadStats() {            
+            const url = `${baseApiUrl}/stats/user/9`;
+            
             axios.get(url)
                 .then(res => {
                     this.totalChartSeries[0] = res.data.open;
@@ -88,10 +89,16 @@ export default {
                     this.categoryChartSeries = [ ...categoryChartSeries ];                    
                 })
         }
-    },
-    mounted() {
+    },    
+    watch: {
+        tabIndex(newValue) {
+           if (newValue === 0) {
+               this.loadStats();
+           }
+        }
+    }, mounted() {
         this.loadStats();
-    }
+    }   
 }    
 </script>
 <style>   
