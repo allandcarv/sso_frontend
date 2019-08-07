@@ -8,8 +8,8 @@
             <i class="fa fa-angle-down"></i>
         </div>
         <div class="user-dropdown__content">            
-            <a href><i class="fa fa-check-circle-o"></i> Operação</a>    
-            <a href><i class="fa fa-cogs"></i> Administração</a>    
+            <a href v-if="user.oper"><i class="fa fa-check-circle-o"></i> Operação</a>    
+            <router-link to="/admin" v-if="user.admin"><i class="fa fa-cogs"></i> Administração</router-link>    
             <a href @click.prevent="logout"><i class="fa fa-sign-out"></i> Sair</a>            
         </div>
     </div>
@@ -39,7 +39,7 @@ export default {
     .user-dropdown {
         position: relative;
 
-        height: 100%;
+        height: 100%;        
     }
 
     .user-dropdown:hover {
@@ -51,8 +51,9 @@ export default {
         align-items: center;
 
         height: 100%;
+        padding: 0px 20px;
         
-        color: #f2f2f2;
+        color: #365899;
         font-weight: 100;
     }
 
@@ -100,7 +101,7 @@ export default {
     .user-dropdown__content a,
     .user-dropdown__content a:hover {
         text-decoration: none;
-        color: #212C7C;
+        color: #365899;
     }
 
 </style>

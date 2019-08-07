@@ -1,13 +1,13 @@
 <template>
     <div class="stats__user">              
-        <PageTitle title="Gráficos baseados nas suas Solicitações" class="ml-3"/>
+        <PageTitle title="Gráficos baseados nas suas Solicitações" class="ml-3"/>        
         <div class="stats__cards ml-4 mr-4">
-            <b-card-group class="cards__group" deck>
+            <b-card-group class="cards__group" deck v-if="totalChartSeries[0] > 0 && totalChartSeries[1] > 0">
                 <b-card
                     title="Total Geral de Solicitações"                                        
                 >
-                    <b-card-text class="stats__charts">
-                        <Charts type="donut" :options="totalChartOptions" :series="totalChartSeries" />
+                    <b-card-text class="stats__charts">        
+                        <Charts type="donut" :options="totalChartOptions" :series="totalChartSeries" />                        
                     </b-card-text>
                 </b-card>
                  
@@ -18,13 +18,15 @@
                         <Charts type="donut" :options="categoryChartOptions" :series="categoryChartSeries" />
                     </b-card-text>
                 </b-card>
-            </b-card-group>            
-        </div>        
+            </b-card-group>
+            <div class="no-content" v-else>Você ainda não possui Solicitações...</div>
+        </div>                
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 
 import PageTitle from '../PageTitle';
 import Charts from '../Charts';
@@ -70,7 +72,7 @@ export default {
     },
     methods: {
         loadStats() {            
-            const url = `${baseApiUrl}/stats/user/9`;
+            const url = `${baseApiUrl}/stats/user/${this.user.id}`;
             
             axios.get(url)
                 .then(res => {
@@ -89,7 +91,8 @@ export default {
                     this.categoryChartSeries = [ ...categoryChartSeries ];                    
                 })
         }
-    },    
+    }, 
+    computed: mapState(['user']),   
     watch: {
         tabIndex(newValue) {
            if (newValue === 0) {

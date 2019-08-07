@@ -1,36 +1,34 @@
 <template>
-    <b-row no-gutters>        
-        <b-col>
-            <div class="tabs__user">        
-                <b-card class="card__user" no-body>
-                    <b-tabs justified pills v-model="tabIndex">
-                        <b-tab active>
-                            <template slot="title">
-                                <i class="fa fa-pie-chart"></i>  Gráficos
-                            </template>
-                            <UserStats :tabIndex="tabIndex" />
-                        </b-tab>
-                        <b-tab>
-                            <template slot="title">
-                                <i class="fa fa-commenting-o"></i> Nova Solicitação
-                            </template>
-                            <UserNewTicket />
-                        </b-tab>
-                        <b-tab>
-                            <template slot="title">
-                                <i class="fa fa-exclamation-circle"></i> Solicitações Abertas
-                            </template>
-                            <UserOpenTickets :tabIndex="tabIndex" />
-                        </b-tab>
-                        <b-tab>
-                            <template slot="title">
-                                <i class="fa fa-check-circle-o"></i> Solicitações Fechadas
-                            </template>
-                            <UserClosedTickets :tabIndex="tabIndex" />
-                        </b-tab>
-                    </b-tabs>
-                </b-card>        
-            </div>
+    <b-row no-gutters class="user-stats">        
+        <b-col>                    
+            <b-card class="card__user" no-body>
+                <b-tabs justified pills v-model="tabIndex">
+                    <b-tab active>
+                        <template slot="title">
+                            <i class="fa fa-pie-chart"></i>  Gráficos
+                        </template>
+                        <UserStats :tabIndex="tabIndex" />
+                    </b-tab>
+                    <b-tab>
+                        <template slot="title">
+                            <i class="fa fa-commenting-o"></i> Nova Solicitação
+                        </template>
+                        <UserNewTicket />
+                    </b-tab>
+                    <b-tab>
+                        <template slot="title">
+                            <i class="fa fa-exclamation-circle"></i> Solicitações Abertas
+                        </template>
+                        <UserOpenTickets :tabIndex="tabIndex" />
+                    </b-tab>
+                    <b-tab>
+                        <template slot="title">
+                            <i class="fa fa-check-circle-o"></i> Solicitações Fechadas
+                        </template>
+                        <UserClosedTickets :tabIndex="tabIndex" />
+                    </b-tab>
+                </b-tabs>
+            </b-card>            
         </b-col>
     </b-row>
 </template>
@@ -53,8 +51,10 @@ export default {
 </script>
 
 <style>
-   .card__user {
-      min-height: 48.7rem;
-   }   
+    .user-stats,
+    .user-stats .card__user {
+      height: 100%;
+   }    
+
    
 </style>

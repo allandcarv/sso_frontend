@@ -1,5 +1,5 @@
 <template>
-    <div class="closed-tickets">
+    <div class="closed-tickets">        
         <PageTitle title="Suas solicitações fechadas" class="ml-3" />
         <div class="solicitation-view ml-3 mr-3" v-if="mode === 'view'">
             <b-row>
@@ -74,7 +74,7 @@
             </div>          
             <b-row>
                 <b-col cols="12">
-                    <b-table hover striped responsive :items="solicitations" :fields="fields" small> 
+                    <b-table hover striped responsive :items="solicitations" :fields="fields" small show-empty> 
                         <template slot="ticket" slot-scope="data">
                             <span class="solicitations-table__ticket" v-b-tooltip.hover title="Visualizar" @click="loadSolicitation(data.item.id, 'view')" >{{ data.item.ticket }}</span>
                         </template>                       
@@ -86,6 +86,7 @@
                                 <i class="fa fa-trash" />
                             </b-button>
                         </template>
+                        <template slot="empty">Você não possui solicitações fechadas...</template>
                     </b-table>
                 </b-col>
             </b-row>
@@ -102,6 +103,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import { mapState } from 'vuex';
 
 import PageTitle from '../PageTitle';
 import { baseApiUrl, showError } from '../../config/global';
@@ -135,7 +137,7 @@ export default {
     },
     methods: {
         getSolicitations() {
-            const url = `${baseApiUrl}/solicitations/user/9/closed?page=${this.page}`;
+            const url = `${baseApiUrl}/solicitations/user/${this.user.id}/closed?page=${this.page}`;
 
             axios.get(url)
                 .then(res => {
@@ -148,7 +150,7 @@ export default {
         },
         filterSolicitations() {
             this.page = 1;
-            const url = `${baseApiUrl}/solicitations/user/9/closed?page=${this.page}&ticket=${this.filterInput}`            
+            const url = `${baseApiUrl}/solicitations/user/${this.user.id}/closed?page=${this.page}&ticket=${this.filterInput}`            
             axios.get(url)
                 .then(res => {
                     this.solicitations = res.data.data;
@@ -198,6 +200,9 @@ export default {
             const formatedDate = new Date(value);
             return moment(formatedDate).format('DD/MM/YYYY');
         }        
+    },
+    computed: {
+        ...mapState(['user'])
     },
     watch: {
         tabIndex(newValue) {

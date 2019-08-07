@@ -35,9 +35,7 @@ export default {
         border-bottom: 2px solid #ECE9E6;
         padding: 0 40px;
 
-        background: #2c3e50;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #3498db, #2c3e50);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #3498db, #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */        
+        background-color: #fff;   
     }
 
     .header__logo img {
@@ -47,7 +45,7 @@ export default {
     .header__title {
         flex-grow: 1;
 
-        color: #f2f2f2;
+        color: #365899;
         font-size: 2.0rem;
         font-weight: bold;
         text-align: center;

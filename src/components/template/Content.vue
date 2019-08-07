@@ -1,8 +1,8 @@
 <template>
     <div class="content">
-        <!-- <b-container fluid> -->
+        <b-container fluid>
             <router-view></router-view>
-        <!-- </b-container> -->
+        </b-container> 
     </div>
 </template>
 
@@ -16,8 +16,12 @@ export default {
     .content {
         grid-area: content;
         
-        padding: 20px 40px;               
+        padding: 10px 20px;               
         
         background-color:#f2f2f2;
-    }    
+    }  
+
+    .container-fluid {
+        height: 100%;
+    }  
 </style>

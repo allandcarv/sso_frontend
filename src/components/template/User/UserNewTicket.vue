@@ -147,7 +147,6 @@ export default {
 <style>
     .new-ticket .new-ticket__form {
         border: 1px solid rgba(0,0,0,.125);        
-        padding: 20px;
-        height: 42rem;
+        padding: 20px;        
     }
 </style>

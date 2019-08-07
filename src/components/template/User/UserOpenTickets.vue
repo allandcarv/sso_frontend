@@ -1,5 +1,5 @@
 <template>
-    <div class="open-tickets">
+    <div class="open-tickets">        
         <PageTitle title="Suas solicitações abertas" class="ml-3" />             
         <div class="solicitation-edit" v-if="mode === 'edit'">
             <b-form class="ml-3 mr-3">
@@ -136,7 +136,7 @@
             </div>          
             <b-row>
                 <b-col cols="12">
-                    <b-table hover striped responsive :items="solicitations" :fields="fields" small> 
+                    <b-table hover striped responsive :items="solicitations" :fields="fields" small show-empty> 
                         <template slot="ticket" slot-scope="data">
                             <span class="solicitations-table__ticket" v-b-tooltip.hover title="Visualizar" @click="loadSolicitation(data.item, 'view')" >{{ data.item.ticket }}</span>
                         </template>                       
@@ -148,12 +148,13 @@
                                 <i class="fa fa-trash" />
                             </b-button>
                         </template>
+                        <template slot="empty">Você não possui solicitações abertas...</template>
                     </b-table>
                 </b-col>
             </b-row>
             <b-row class="ml-3">
                 <b-col cols="12">
-                    <b-pagination size="md" v-model="page" :total-rows="count" :per-page="limit" />
+                    <b-pagination size="sm" v-model="page" :total-rows="count" :per-page="limit" />
                 </b-col>
             </b-row>
         </div>        
@@ -163,6 +164,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import { mapState } from 'vuex';
 
 import { baseApiUrl, showError } from '../../config/global';
 import PageTitle from '../PageTitle';
@@ -194,7 +196,7 @@ export default {
     },
     methods: {
         getSolicitations() {
-            const url = `${baseApiUrl}/solicitations/user/9?page=${this.page}`;
+            const url = `${baseApiUrl}/solicitations/user/${this.user.id}?page=${this.page}`;
             
             axios.get(url)
                 .then(res => {
@@ -208,7 +210,7 @@ export default {
         },
         filterSolicitations() {
             this.page = 1;
-            const url = `${baseApiUrl}/solicitations/user/9?page=${this.page}&ticket=${this.filterInput}`            
+            const url = `${baseApiUrl}/solicitations/user/${this.user.id}?page=${this.page}&ticket=${this.filterInput}`            
             axios.get(url)
                 .then(res => {
                     this.solicitations = res.data.data;
@@ -279,7 +281,8 @@ export default {
         formatedOpenDate: function() {
             const temp = new Date(this.solicitation.opening_date);
             return moment(temp).format('DD/MM/YYYY');
-        }
+        },
+        ...mapState(['user'])
     },
     watch: {
         page() {
@@ -304,6 +307,6 @@ export default {
         border: 1px solid #ced4da;
         border-radius: .25rem;
 
-    }
+    }   
     
 </style>

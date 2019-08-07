@@ -6,8 +6,14 @@
             
             <div class="auth-title">Autenticação</div>
 
-            <input type="email" v-model="user.email" placeholder="Seu email..." />
-            <input type="password" v-model="user.password" placeholder="Sua senha..." @keyup.enter="signin" />
+            <b-input-group>
+                <b-input-group-text slot="prepend"><i class="fa fa-at"></i></b-input-group-text>
+                <b-form-input type="email" v-model="user.email" placeholder="Seu email ..." />
+            </b-input-group>  
+            <b-input-group>
+                <b-input-group-text slot="prepend"><i class="fa fa-asterisk"></i></b-input-group-text>
+                <b-form-input type="password" v-model="user.password" placeholder="Sua senha ..." @keyup.enter="signin" />
+            </b-input-group>                       
 
             <button @click="signin">Entrar</button>
         </div>
@@ -45,16 +51,17 @@ export default {
 <style>
     .auth-content {
         height: 100%;
-        display: flex;
-        align-items: center;
+        display: flex;        
         justify-content: center;        
+        padding: 50px 0;
     }
 
     .auth-modal {
         background-color: #fff;
         width: 350px;
+        height: 370px;
         padding: 35px;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);        
 
         display: flex;
         flex-direction: column;
@@ -68,11 +75,8 @@ export default {
         margin-bottom: 15px;
     }
 
-    .auth-modal input {
-        border: 1px solid #bbb;
-        width: 100%;
+    .auth-modal .input-group {        
         margin-bottom: 15px;
-        padding: 3px 8px;
     }
 
     .auth-modal button {
