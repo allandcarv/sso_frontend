@@ -1,5 +1,5 @@
 <template>
-    <VueApexCharts width="600" :type="type" :options="options" :series="series" />
+    <VueApexCharts :width="width" :type="type" :options="options" :series="series" />
 </template>
 
 <script>
@@ -8,7 +8,7 @@ import VueApexCharts from 'vue-apexcharts';
 export default {
     name: 'Charts',
     components: { VueApexCharts },
-    props: ['type', 'series', 'options']
+    props: ['width', 'type', 'series', 'options']
 }
 </script>
 

@@ -5,6 +5,7 @@ import axios from 'axios';
 import Auth from '../template/auth/Auth';
 import UserHome from '../template/user/UserHome';
 import AdminHome from '../template/admin/AdminHome';
+import OperHome from '../template/oper/OperHome';
 
 import { baseApiUrl, userKey } from './global';
 
@@ -25,6 +26,10 @@ const routes = [{
     meta: {
         requiresAdmin: true
     }
+}, {
+    name: 'oper',
+    path: '/oper',
+    component: OperHome
 }];
 
 const router = new VueRouter({

@@ -1,5 +1,5 @@
 <template>
-    <b-row no-gutters class="user-stats">        
+    <b-row no-gutters class="user-home">        
         <b-col>                    
             <b-card class="card__user" no-body>
                 <b-tabs justified pills v-model="tabIndex">
@@ -51,8 +51,8 @@ export default {
 </script>
 
 <style>
-    .user-stats,
-    .user-stats .card__user {
+    .user-home,
+    .user-home .card__user {
       height: 100%;
    }    
 

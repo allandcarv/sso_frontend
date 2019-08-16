@@ -1,5 +1,5 @@
 <template>
-    <div class="stats__user">              
+    <div class="stats__user">                   
         <PageTitle title="Gráficos baseados nas suas Solicitações" class="ml-3"/>        
         <div class="stats__cards ml-4 mr-4">
             <b-card-group class="cards__group" deck v-if="totalChartSeries[0] > 0 && totalChartSeries[1] > 0">
@@ -37,7 +37,8 @@ export default {
     components: { PageTitle, Charts }, 
     props: ['tabIndex'],   
     data: function() {
-        return {            
+        return {  
+            mounted: false,          
             totalChartOptions: {               
                 responsive: [{
                     breakpoint: 1400,
@@ -71,33 +72,35 @@ export default {
         }
     },
     methods: {
-        loadStats() {            
+        async loadStats() {            
             const url = `${baseApiUrl}/stats/user/${this.user.id}`;
-            
-            axios.get(url)
-                .then(res => {
-                    this.totalChartSeries[0] = res.data.open;
-                    this.totalChartSeries[1] = res.data.closed;
 
-                    let categoryChartLabels = [];
-                    let categoryChartSeries = [];
-                    res.data.byCategory.forEach(c => {                                             
-                        categoryChartLabels.push(c.categoria);
-                        categoryChartSeries.push(c.total);                        
-                    });
-                    this.categoryChartOptions = { ...this.categoryChartOptions, ...{
-                        labels: [ ...categoryChartLabels ]
-                    }};
-                    this.categoryChartSeries = [ ...categoryChartSeries ];                    
-                })
+            const temp = await axios.get(url);
+
+            this.totalChartSeries = [ temp.data.open, temp.data.closed ]; 
+            
+            let categoryChartLabels = [];
+            let categoryChartSeries = [];
+            temp.data.byCategory.forEach(c => {
+               categoryChartLabels.push(c.categoria);
+               categoryChartSeries.push(c.total);
+            });
+
+            this.categoryChartOptions = { ...this.categoryChartOptions, ...{
+                labels: [ ...categoryChartLabels ]
+            }};
+
+            this.categoryChartSeries = [ ...categoryChartSeries ];            
         }
     }, 
     computed: mapState(['user']),   
     watch: {
         tabIndex(newValue) {
-           if (newValue === 0) {
+           if (newValue === 0 && this.mounted === true) {
                this.loadStats();
            }
+
+           if (this.mounted === false) this.mounted = true; 
         }
     }, mounted() {
         this.loadStats();
